@@ -2,20 +2,27 @@ import pygame
 import random
 
 pygame.init()
+
 # Create The Screen
 screen = pygame.display.set_mode((800, 600))
+
+# Background
+background = pygame.image.load("space.jpg")
+
 # Title and Icon
 pygame.display.set_caption("Space Invaders Tutorial")
+
 # Player
 playerImg = pygame.image.load("spaceship.png")
 playerX = 370
 playerY = 480
 playerX_change = 0
 
+# Enemy
 enemyImg = pygame.image.load("enemy.png")
 enemyX = random.randint(0, 736)
 enemyY = random.randint(50, 150)
-enemyX_change = 0
+enemyX_change = 3
 
 def player(x, y):
     screen.blit(playerImg, (x, y))
@@ -41,13 +48,24 @@ while running:
                 playerX_change = 0
 
     screen.fill((0, 0, 0))
-    
+    screen.blit(background, (0, 0))
     playerX += playerX_change
 
     if playerX <= 0:
         playerX = 0
     elif playerX >= 736:
         playerX = 736
+
+    enemyX += enemyX_change
+
+    if enemyX <= 0:
+        enemyX = 0
+        enemyX_change = 3
+        enemyY += 40
+    elif enemyX >= 736:
+        enemyX = 736
+        enemyX_change = -3
+        enemyY += 40
 
     player(playerX, playerY)
     enemy(enemyX, enemyY)
