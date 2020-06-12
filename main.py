@@ -51,6 +51,8 @@ font = pygame.font.Font("freesansbold.ttf", 32)
 textX = 10
 textY = 10
 
+game_over_font = pygame.font.Font("freesansbold.ttf", 64)
+
 def show_score(x, y):
     score = font.render("Score: " + str(score_value), True, (255, 255, 255))
     screen.blit(score, (x, y))
@@ -72,6 +74,10 @@ def is_collision(enemyX, enemyY, bulletX, bulletY):
         return True
     else:
         return False
+
+def game_over_text(x, y):
+    game_over = game_over_font.render("GAME OVER", True, (255, 255, 255))
+    screen.blit(game_over, (250, 250))
 
 # Game Loop
 running = True
@@ -107,6 +113,13 @@ while running:
         playerX = 735
 
     for i in range(num_of_enemies):
+
+        if enemyY[i] > 440:
+            for j in range(num_of_enemies):
+                enemyY[j] = 2000
+            game_over_text(250, 250)
+            break
+
         enemyX[i] += enemyX_change[i]
         if enemyX[i] <= 0:
             enemyX[i] = 0
